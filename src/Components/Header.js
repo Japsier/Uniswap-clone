@@ -44,8 +44,6 @@ const Header = () => {
     `
 
     const linkClick = (e) => {
-        console.log(e)
-        console.log("link clicked")
         document.querySelectorAll(".listItem").forEach((element) => {
             element.classList.remove("activePage")
         })
