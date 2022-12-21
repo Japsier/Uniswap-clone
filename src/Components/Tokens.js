@@ -75,9 +75,6 @@ const Tokens = () => {
         },
     ])
 
-    useEffect(() => {
-
-    })
 
     const Nav = styled.nav`
     display: flex;
@@ -150,6 +147,7 @@ const Tokens = () => {
             font-size: 16px;
             color: lightgray;
             border-bottom: 1px solid lightgray;
+
         }
     `
 
