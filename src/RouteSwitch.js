@@ -4,6 +4,7 @@ import Nft from "./Components/Nft";
 import Tokens from "./Components/Tokens";
 import Pool from "./Components/Pool";
 import Header from "./Components/Header";
+import Homepage from "./Components/HomePage";
 
 
 function RouteSwitch() {
@@ -12,7 +13,8 @@ function RouteSwitch() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Swap />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/Swap" element={<Swap />} />
         <Route path="/nfts" element={<Nft />} />
         <Route path="/tokens" element={<Tokens />} />
         <Route path="/pool" element={<Pool />} />

@@ -68,10 +68,13 @@ const Header = () => {
         <Header>
             <Nav>
                 <Ul className="navLeft">
-                    <Li className="listItem" onClick={linkClick}>Logo</Li>                 
-                    
                         <Link to="/">
-                            <Li className="listItem activePage" onClick={linkClick}>Swap</Li>
+                            <Li className="listItem activePage" onClick={linkClick}>
+                            <img src="https://app.uniswap.org/favicon.png" alt="Uniswap logo" height="40px" width="40px" />
+                            </Li>                 
+                        </Link>
+                        <Link to="/Swap">
+                            <Li className="listItem" onClick={linkClick}>Swap</Li>
                         </Link>
                         
                         <Link to="/tokens">
