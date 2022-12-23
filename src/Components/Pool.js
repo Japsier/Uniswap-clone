@@ -30,6 +30,7 @@ const Container = styled.div`
 
             &:hover {
                 cursor: pointer;
+                background-color: #dbeafe;
             }
 
             svg {
@@ -51,6 +52,7 @@ const Container = styled.div`
             font-weight: 700;
             &:hover {
                 cursor: pointer;
+                background-color: #ed007f
             }
 
         }
@@ -88,10 +90,44 @@ const Container = styled.div`
                 border-radius: 30px;
                 &:hover {
                     cursor: pointer;
+                    background-color: #ed007f
                 }
             }
         }
 
+    }
+    .bottom {
+        display: flex;
+        gap: 10px;
+        a {
+            text-decoration: none;
+        }
+        .leftLink, .rightLink {
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid lightgray;
+            background-color: transparent;
+            border-radius: 20px;
+            color: #334155;
+            .header {
+                color: #1e293b;
+                font-size: 18px;
+                font-weight: 500;
+            }
+            &:hover {
+                cursor: pointer;
+                color: #94a3b8;
+                .header {
+                    color: #6b7280;
+                }
+            }
+        }
+        .leftAnchor {
+            flex-grow: 1.5; 
+        }
+        .rightAnchor {
+            flex-grow: 1;
+        }
     }
 `
 const Pool = () => {
@@ -111,12 +147,18 @@ const Pool = () => {
                 </div>
             </div>
             <div className="bottom">
+                <a className="leftAnchor" href="https://help.uniswap.org/en/articles/5391541-providing-liquidity-on-uniswap-v3" target="_blank">
                 <div className="leftLink">
-
+                    <p className="header">Learn about providing liquidity ↗</p>
+                    <p>Check out our v3 LP walktrhough and migration guides.</p>
                 </div>
+                </a>
+                <a className="rightAnchor" href="https://info.uniswap.org/#/pools" target="_blank">
                 <div className="rightLink">
-                
+                    <p className="header">Top pools ↗</p>
+                    <p>Explore Uniswap Analytics</p>                
                 </div>
+                </a>
 
             </div>
             
