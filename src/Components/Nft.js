@@ -7,7 +7,23 @@ display: flex;
 flex-direction: column;
 gap: 30px;
 
-.navLeft {
+.headerInfo h1 {
+    font-size: 38px;
+    font-weight: 500;
+}
+
+p.secondHeader {
+    font-size: 32px;
+    font-weight: 300;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navLeft, .navRight {
     padding: 5px;
     border: 1px solid #dbeafe;
     display: flex;
@@ -15,7 +31,7 @@ gap: 30px;
     width: fit-content;
     border-radius: 20px;
 }
-.navLeft div {
+.navLeft div, .navRight div {
     height: 40px;
     width: 40px;
     border-radius: 10px;
@@ -28,7 +44,7 @@ gap: 30px;
         color: lightgray;
     }
 }
-div.activeNav {
+div.activeNavLeft, div.activeNavRight {
     background-color: #dbeafe;
 }
 `
@@ -144,25 +160,39 @@ const Nft = () => {
         },
     ])
 
-    const navOnclick = (e) => {
+    const navLeftOnclick = (e) => {
         e.target.parentNode.childNodes.forEach((element) => {
-            element.classList.remove("activeNav")
+            element.classList.remove("activeNavLeft")
         })
-        e.target.classList.add("activeNav")
+        e.target.classList.add("activeNavLeft")
+    }
+    const navRightOnclick = (e) => {
+        e.target.parentNode.childNodes.forEach((element) => {
+            element.classList.remove("activeNavRight")
+        })
+        e.target.classList.add("activeNavRight")
     }
 
     return(
         <NftDisplay>
             <div className="headerInfo">
-                <h1>Better prices.</h1>
+                <h1>Better Prices.</h1>
                 <h1>More Listings.</h1>
             </div>
-            <div className="navLeft">
-                <div className="activeNav" onClick={navOnclick}>1D</div>
-                <div onClick={navOnclick}>1W</div>
-                <div onClick={navOnclick}>1M</div>
-                <div onClick={navOnclick}>All</div>
-            </div>
+            <p className="secondHeader">Trending NFT colections</p>
+            <nav>
+                <div className="navLeft">
+                    <div className="activeNavLeft" onClick={navLeftOnclick}>1D</div>
+                    <div onClick={navLeftOnclick}>1W</div>
+                    <div onClick={navLeftOnclick}>1M</div>
+                    <div onClick={navLeftOnclick}>All</div>
+                </div>
+                <div className="navRight">
+                    <div className="activeNavRight" onClick={navRightOnclick}>ETH</div>
+                    <div onClick={navRightOnclick}>USD</div>
+                </div>
+            </nav>
+
             <NftList>
                 <div className="nftInfo firstRow">
                     <span className="nameInfo">Name</span>

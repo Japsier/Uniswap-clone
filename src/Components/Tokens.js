@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react"
 import styled from "styled-components"
+import ethLogo from "../Assets/ethLogo.png"
 
 const Tokens = () => {
     const [coins, setcoins] = useState([
@@ -105,6 +106,11 @@ const Tokens = () => {
             cursor: auto;
         }
     }
+    .chain, .timeFrame {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
     `
 
     const TokenDisplay = styled.div`
@@ -155,8 +161,15 @@ const Tokens = () => {
         <TokenDisplay>
             <h1>Top 10 Tokens:</h1>
             <Nav>
-                <div className="chain">Ethereum</div>
-                <div className="timeFrame">1D </div>
+                <div className="chain">
+                    <img src={ethLogo} alt="Ethereum Logo" height="20px" width="20px"/> 
+                    <span>Ethereum</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div className="timeFrame">
+                    <span>1D</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
                 <input type="text" placeholder="Filter Tokens"/>
             </Nav>
             <TokenList>
