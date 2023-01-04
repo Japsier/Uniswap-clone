@@ -1,5 +1,7 @@
 import fileImage from "../Assets/fileImg.png"
 import styled from "styled-components"
+import { useState } from "react"
+import WalletDisplay from "./WalletDisplay"
 
 const Container = styled.div`
     display: flex;
@@ -132,6 +134,16 @@ const Container = styled.div`
 `
 const Pool = () => {
 
+    const [displayWallet, setDisplayWallet] = useState(false)
+
+
+    const hideWalletConnect = () => {
+        setDisplayWallet(false)
+    }
+    const connectWalletClick = () => {
+        setDisplayWallet(true)
+    }
+
     return(
         <Container>
             <div className="top">
@@ -143,7 +155,7 @@ const Pool = () => {
                 <div className="middleContainer">
                     <img src={fileImage} alt="file icon" height="70px" width="70px"/>
                     <p>Your active v3 liquidity positions will appear here.</p>
-                    <button>Connect a Wallet</button>
+                    <button onClick={connectWalletClick}>Connect a Wallet</button>
                 </div>
             </div>
             <div className="bottom">
@@ -161,7 +173,12 @@ const Pool = () => {
                 </a>
 
             </div>
-            
+
+            { displayWallet ? 
+            <WalletDisplay closeWindow={hideWalletConnect}  />
+            : null
+            }
+
         </Container>
     )
 
