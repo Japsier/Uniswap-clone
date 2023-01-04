@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Uniswap-clone/static/css/main.0d773a7e.css",
+    "main.js": "/Uniswap-clone/static/js/main.829d9dfb.js",
+    "index.html": "/Uniswap-clone/index.html",
+    "main.0d773a7e.css.map": "/Uniswap-clone/static/css/main.0d773a7e.css.map",
+    "main.829d9dfb.js.map": "/Uniswap-clone/static/js/main.829d9dfb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0d773a7e.css",
+    "static/js/main.829d9dfb.js"
+  ]
+}
