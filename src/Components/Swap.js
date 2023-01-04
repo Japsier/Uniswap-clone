@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import SwapSettings from "./SwapSettings"
 import { useState, useEffect } from "react"
+import ethLogo from "../Assets/ethLogo.png"
 
 const Container = styled.div`
 background-color: white;
@@ -57,11 +58,49 @@ margin: 0;
 input {
     font-size: 24px;
     outline: none;
-    height: 80%;
     background: transparent;
     border: 0px;
+    min-width: 0;
 }
 textarea {outline: none}
+
+.tokenSelector {
+    display: flex;
+    gap: 9px;
+    padding: 4px;
+    border-radius: 20px;
+    align-items: center;
+
+    &.one {
+        background-color: #cbd5e1;
+        font-size: 22px;
+        font-weight: 400;
+
+        img {
+            height: 30px;
+            width: 30px;
+        }
+    }
+    &.two {
+        justify-content: space-between;
+        background-color: #ff007f;
+        color: white;
+        font-size: 18px;
+        font-weight: 500;
+        width: 15rem;
+        padding: 8px;
+
+        svg {
+            filter: invert(100%) sepia(8%) saturate(3157%) hue-rotate(284deg) brightness(113%) contrast(106%);
+        }
+
+    }
+    &:hover {
+        cursor: pointer;
+    }
+
+}
+
 
 `
 const ConnectWallet = styled.div`
@@ -101,11 +140,18 @@ const Swap = () => {
             </TopBar>
             <Token>
                 <input type="number" placeholder="0"/>
-                <div className="tokenSelector">ETH</div>
+                <div className="tokenSelector one">
+                    <img src={ethLogo} alt="eth logo"></img>
+                    <span>ETH</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
             </Token>
             <Token>
                 <input type="number" placeholder="0"/>
-                <div className="tokenSelector">ETH</div>
+                <div className="tokenSelector two">
+                    <span>Select token</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
             </Token>
             <ConnectWallet>
                 <h2>Connect Wallet</h2>
