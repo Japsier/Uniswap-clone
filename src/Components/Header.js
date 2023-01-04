@@ -2,36 +2,38 @@ import styled from "styled-components"
 import * as React from "react";
 import { Link } from "react-router-dom"
 import ethLogo from "../Assets/ethLogo.png"
+import { useState } from "react";
+import WalletDisplay from "./WalletDisplay";
 
-const Header = () => {
-    const Header = styled.header`
-    height: 100px;
-    padding: 20px;
+const Headerdiv = styled.header`
+position: relative;
+height: 100px;
+padding: 20px;
 
-    `
-    const Nav = styled.nav`
-    display: flex;
-    justify-content: space-between;
-    `
+`
+const Nav = styled.nav`
+display: flex;
+justify-content: space-between;
+`
 
-    const Ul = styled.ul`
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+const Ul = styled.ul`
+list-style: none;
+margin: 0;
+padding: 0;
+display: flex;
+align-items: center;
+gap: 10px;
 
-    a {
-        text-decoration: none;
-    }
+a {
+    text-decoration: none;
+}
 
-    `
-    const Li = styled.li`
+`
+const Li = styled.li`
     padding: 10px;
     border-radius: 10px;
     color: black;
-    
+
     &:hover {
         background: rgba(0, 0, 0, .1);
         cursor: pointer;
@@ -53,8 +55,12 @@ const Header = () => {
         border-radius: 30px;
     }
 
-    
-    `
+
+`
+
+const Header = () => {
+    const [connectWallet, setConnectWallet] = useState(false)
+
 
     const linkClick = (e) => {
         document.querySelectorAll(".listItem").forEach((element) => {
@@ -62,10 +68,18 @@ const Header = () => {
         })
         e.target.classList.add("activePage")
     }
+    const showWalletConnect = () => {
+        setConnectWallet(true)
+
+    }
+    const hideWalletConnect = () => {
+        setConnectWallet(false)
+        
+    }
     
 
     return(
-        <Header>
+        <Headerdiv>
             <Nav>
                 <Ul className="navLeft">
                         <Link to="/">
@@ -103,13 +117,18 @@ const Header = () => {
                     <img src={ethLogo} alt="Ethereum Logo" height="30px" width="30px"/> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </Li>
-                    <Li className="navWalletConnect">
+                    <Li className="navWalletConnect" onClick={showWalletConnect}>
                     <span>Connect |</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FB118E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-testid="navbar-wallet-dropdown"><polyline points="6 9 12 15 18 9"></polyline></svg>                    </Li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FB118E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-testid="navbar-wallet-dropdown"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </Li>
                 </Ul>
             </Nav>
+            {connectWallet ? 
+            <WalletDisplay closeWindow={hideWalletConnect} />
+            : null
+            }
 
-        </Header>
+        </Headerdiv>
     )
 }
 
