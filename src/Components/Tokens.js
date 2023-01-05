@@ -1,6 +1,90 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import ethLogo from "../Assets/ethLogo.png"
+import TimeNav from "./TimeNav"
+
+const Nav = styled.nav`
+display: flex;
+gap: 30px;
+align-items: center;
+
+div {
+    background-color: #dbeafe;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    &:hover {
+        background-color: #f8fafc;
+        cursor: pointer;
+    }
+}
+
+input {
+    -webkit-appearance: none;
+    outline: none;
+    border: 1px solid #dbeafe;
+    background-color: #f8fafc;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    &:hover {
+        cursor: auto;
+    }
+}
+.chain, .timeFrame {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+`
+
+const TokenDisplay = styled.div`
+padding: 30px;
+display: flex;
+flex-direction: column;
+gap: 30px;
+.wrapper {
+    position: relative;
+}
+`
+
+const TokenList = styled.div`
+    background-color: white;
+    padding-top: 20px;
+    font-size: 20px;
+    border-radius: 30px;
+    border: 2px solid lightgray;
+    display: flex;
+    flex-direction: column;
+
+    .tokenInfo {
+        display: grid;
+        grid-column-gap: 25px;
+        grid-template-columns: 6fr 2fr 1fr 1.5fr 1.5fr;
+        text-align: end;
+        padding-left: 25px;
+        padding-right: 25px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        .nameInfo {
+            text-align: start;
+        }
+        .greenColor {
+            color: lightgreen;
+        }
+        &:hover {
+           background-color: #f3f4f6;
+           cursor: pointer;
+        }
+    }
+    .firstRow {
+        font-size: 16px;
+        color: lightgray;
+        border-bottom: 1px solid lightgray;
+
+    }
+`
 
 const Tokens = () => {
     const [coins, setcoins] = useState([
@@ -76,86 +160,37 @@ const Tokens = () => {
         },
     ])
 
+    const ref = useRef()
 
-    const Nav = styled.nav`
-    display: flex;
-    gap: 30px;
-    align-items: center;
+    const [isTimeOpen, setIsTimeOpen] = useState(false)
+    const [activeTime, setActiveTime] = useState("1d")
 
-    div {
-        background-color: #dbeafe;
-        border-radius: 10px;
-        padding: 12px;
-        font-size: 18px;
-        font-weight: 600;
-        &:hover {
-            background-color: #f8fafc;
-            cursor: pointer;
-        }
+    const changeActiveTime = (time) => {
+        setActiveTime(time)
     }
-    
-    input {
-        -webkit-appearance: none;
-        outline: none;
-        border: 1px solid #dbeafe;
-        background-color: #f8fafc;
-        font-size: 18px;
-        padding: 12px;
-        border-radius: 10px;
-        &:hover {
-            cursor: auto;
-        }
-    }
-    .chain, .timeFrame {
-        display: flex;
-        gap: 5px;
-        align-items: center;
-    }
-    `
 
-    const TokenDisplay = styled.div`
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    `
-
-    const TokenList = styled.div`
-        background-color: white;
-        padding-top: 20px;
-        font-size: 20px;
-        border-radius: 30px;
-        border: 2px solid lightgray;
-        display: flex;
-        flex-direction: column;
-
-        .tokenInfo {
-            display: grid;
-            grid-column-gap: 25px;
-            grid-template-columns: 6fr 2fr 1fr 1.5fr 1.5fr;
-            text-align: end;
-            padding-left: 25px;
-            padding-right: 25px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            .nameInfo {
-                text-align: start;
-            }
-            .greenColor {
-                color: lightgreen;
-            }
-            &:hover {
-               background-color: #f3f4f6;
-               cursor: pointer;
+    useEffect(() => {
+        const checkForClickOutside = (e) => {
+            console.log("clicked")
+            if(isTimeOpen && ref.current && !ref.current.contains(e.target)) {
+                console.log("close timeframe")
+                setIsTimeOpen(false)
             }
         }
-        .firstRow {
-            font-size: 16px;
-            color: lightgray;
-            border-bottom: 1px solid lightgray;
 
-        }
-    `
+        document.addEventListener("mousedown", (e) => {
+            checkForClickOutside(e)
+        })
+
+        return(
+            document.removeEventListener("mousedown", (e) => {
+                checkForClickOutside(e)
+            })
+        )
+    }, [isTimeOpen])
+
+
+
 
     return(
         <TokenDisplay>
@@ -166,12 +201,13 @@ const Tokens = () => {
                     <span>Ethereum</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
-                <div className="timeFrame">
-                    <span>1D</span>
+                <div className="timeFrame" onClick={() => setIsTimeOpen(true) }>
+                    <span>{activeTime.toUpperCase()}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 <input type="text" placeholder="Filter Tokens"/>
             </Nav>
+
             <TokenList>
                 <div className="tokenInfo firstRow">
                     <span className="nameInfo">Name</span>
@@ -193,6 +229,11 @@ const Tokens = () => {
                     })
                 }
             </TokenList>
+            {isTimeOpen ?
+                <div className="wrapper" ref={ref}>
+                    <TimeNav changeActiveTime={changeActiveTime} time={activeTime}/>
+                </div>
+                : null  }
         </TokenDisplay>
     )
 
