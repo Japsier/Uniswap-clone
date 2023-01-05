@@ -5,6 +5,7 @@ import ethLogo from "../Assets/ethLogo.png"
 import { useState, useEffect, useRef } from "react";
 import WalletDisplay from "./WalletDisplay";
 import Extra from "./Extra";
+import Chain from "./Chain";
 
 const Headerdiv = styled.header`
 position: relative;
@@ -50,6 +51,10 @@ const Li = styled.li`
         display: flex;
         align-items: center;
         gap: 5px;
+        img {
+            height: 30px;
+            width: 30px;
+        }
     }
     &.navWalletConnect {
         display: flex;
@@ -65,14 +70,18 @@ const Li = styled.li`
 `
 
 const Header = () => {
-    const ref = useRef()
+    const refExtra = useRef()
+    const refChains = useRef()
+
     const [connectWallet, setConnectWallet] = useState(false)
     const [showExtra, setShowExtra] = useState(false)
+    const [showChains, setShowChains] = useState(false)
+    const [activeChain, setActiveChain] = useState("ethereum")
 
 
     useEffect(() => {
         const checkIfClickedOutside = (e) => {
-            if(showExtra && ref.current && !ref.current.contains(e.target)) {
+            if(showExtra && refExtra.current && !refExtra.current.contains(e.target)) {
                 setShowExtra(false)
             }
         }
@@ -85,6 +94,26 @@ const Header = () => {
             document.removeEventListener("mousedown", checkIfClickedOutside)
         )
     }, [showExtra])
+
+    useEffect(() => {
+        const checkIfClickedOutside = (e) => {
+            if(showChains && refChains.current && !refChains.current.contains(e.target)) {
+                setShowChains(false)
+            }
+        }
+
+        document.addEventListener("mousedown", (e) => {
+            checkIfClickedOutside(e)
+        } )
+
+        return(
+            document.removeEventListener("mousedown", checkIfClickedOutside)
+        )
+    }, [showChains])
+
+    const changeChain = (chain) => {
+        setActiveChain(chain)
+    }
 
     
 
@@ -140,8 +169,25 @@ const Header = () => {
                     <Li onClick={() => setShowExtra(true)}>
                     <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24"><path d="M10 10.8334C10.4603 10.8334 10.8334 10.4603 10.8334 10C10.8334 9.53978 10.4603 9.16669 10 9.16669C9.5398 9.16669 9.16671 9.53978 9.16671 10C9.16671 10.4603 9.5398 10.8334 10 10.8334Z" stroke="currentColor" strokewidth="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15.8334 10.8334C16.2936 10.8334 16.6667 10.4603 16.6667 10C16.6667 9.53978 16.2936 9.16669 15.8334 9.16669C15.3731 9.16669 15 9.53978 15 10C15 10.4603 15.3731 10.8334 15.8334 10.8334Z" stroke="currentColor" strokewidth="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4.16671 10.8334C4.62694 10.8334 5.00004 10.4603 5.00004 10C5.00004 9.53978 4.62694 9.16669 4.16671 9.16669C3.70647 9.16669 3.33337 9.53978 3.33337 10C3.33337 10.4603 3.70647 10.8334 4.16671 10.8334Z" stroke="currentColor" strokewidth="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     </Li>
-                    <Li className="chainNav">
-                    <img src={ethLogo} alt="Ethereum Logo" height="30px" width="30px"/> 
+                    <Li className="chainNav" onClick={() => setShowChains(true)}>
+                        {activeChain === "ethereum"
+                        ?  <img src={ethLogo} alt="Ethereum Logo" height="30px" width="30px"/> 
+                        : null
+                        }
+                        {activeChain === "polygon"
+                        ? <img src="https://app.uniswap.org/static/media/polygon-matic-logo.97ff139c.svg" alt="polygon logo"></img>
+                        : null
+                        }
+                        {activeChain === "optimism"
+                        ? <img src="https://app.uniswap.org/static/media/optimistic_ethereum.34412af2.svg" alt="optimism logo"></img>
+                        : null
+                        }
+                        {activeChain === "arbitrum"
+                        ? <img src="https://app.uniswap.org/static/media/arbitrum_logo.ec8e5080.svg" alt="arbitrum logo"></img>
+                        : null}
+                        {activeChain === "celo"
+                        ? <img src="https://app.uniswap.org/static/media/celo_logo.faaa57f7.svg" alt="celo logo"></img>
+                        : null}
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </Li>
                     <Li className="navWalletConnect" onClick={showWalletConnect}>
@@ -152,10 +198,15 @@ const Header = () => {
             </Nav>
 
             {showExtra ?
-            <div className="wrapper" ref={ref} >
+            <div className="wrapper" ref={refExtra} >
                 <Extra  />
-            </div>
-            
+            </div>          
+            : null }
+
+            {showChains ?
+            <div className="wrapper" ref={refChains} >
+                <Chain changeChain={changeChain} activeChain={activeChain} />
+            </div>         
             : null }
 
             {connectWallet ? 
