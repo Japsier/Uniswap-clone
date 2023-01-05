@@ -15,6 +15,10 @@ padding: 20px;
     position: relative;
     width: auto;
 }
+.wrapper.chain {
+    position: absolute;
+    right: 420px;
+}
 
 `
 const Nav = styled.nav`
@@ -69,14 +73,14 @@ const Li = styled.li`
 
 `
 
-const Header = () => {
+const Header = (props) => {
     const refExtra = useRef()
     const refChains = useRef()
 
     const [connectWallet, setConnectWallet] = useState(false)
     const [showExtra, setShowExtra] = useState(false)
     const [showChains, setShowChains] = useState(false)
-    const [activeChain, setActiveChain] = useState("ethereum")
+    const activeChain = props.activeChain
 
 
     useEffect(() => {
@@ -112,7 +116,7 @@ const Header = () => {
     }, [showChains])
 
     const changeChain = (chain) => {
-        setActiveChain(chain)
+        props.changeActiveChain(chain)
     }
 
     
@@ -188,7 +192,7 @@ const Header = () => {
                         {activeChain === "celo"
                         ? <img src="https://app.uniswap.org/static/media/celo_logo.faaa57f7.svg" alt="celo logo"></img>
                         : null}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                     </Li>
                     <Li className="navWalletConnect" onClick={showWalletConnect}>
                     <span>Connect |</span>
@@ -204,7 +208,7 @@ const Header = () => {
             : null }
 
             {showChains ?
-            <div className="wrapper" ref={refChains} >
+            <div className="wrapper chain" ref={refChains} >
                 <Chain changeChain={changeChain} activeChain={activeChain} />
             </div>         
             : null }

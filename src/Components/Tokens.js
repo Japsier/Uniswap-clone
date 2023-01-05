@@ -2,6 +2,7 @@ import {useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import ethLogo from "../Assets/ethLogo.png"
 import TimeNav from "./TimeNav"
+import Chain from "./Chain"
 
 const Nav = styled.nav`
 display: flex;
@@ -36,6 +37,13 @@ input {
     display: flex;
     gap: 5px;
     align-items: center;
+    img {
+        height: 20px;
+        width: 20px;
+    }
+    span {
+        width: 90px;
+    }
 }
 `
 
@@ -46,6 +54,10 @@ flex-direction: column;
 gap: 30px;
 .wrapper {
     position: relative;
+}
+.wrapper.chains {
+    position: absolute;
+    top: 340px;
 }
 `
 
@@ -86,7 +98,7 @@ const TokenList = styled.div`
     }
 `
 
-const Tokens = () => {
+const Tokens = (props) => {
     const [coins, setcoins] = useState([
         {
             name: "Ether",
@@ -160,10 +172,19 @@ const Tokens = () => {
         },
     ])
 
-    const ref = useRef()
+    const refTime = useRef()
+    const refChains = useRef()
 
     const [isTimeOpen, setIsTimeOpen] = useState(false)
     const [activeTime, setActiveTime] = useState("1d")
+    const [showChains, setShowChains] = useState(false)
+
+    const activeChain = props.activeChain
+
+    const tempChain = activeChain
+    const firstLetter = tempChain.charAt(0).toUpperCase()
+    const lastLetters = tempChain.slice(1)
+    const chainTemplate = firstLetter + lastLetters
 
     const changeActiveTime = (time) => {
         setActiveTime(time)
@@ -172,8 +193,7 @@ const Tokens = () => {
     useEffect(() => {
         const checkForClickOutside = (e) => {
             console.log("clicked")
-            if(isTimeOpen && ref.current && !ref.current.contains(e.target)) {
-                console.log("close timeframe")
+            if(isTimeOpen && refTime.current && !refTime.current.contains(e.target)) {
                 setIsTimeOpen(false)
             }
         }
@@ -189,6 +209,25 @@ const Tokens = () => {
         )
     }, [isTimeOpen])
 
+    useEffect(() => {
+        const checkForClickOutside = (e) => {
+            console.log("clicked")
+            if(showChains && refChains.current && !refChains.current.contains(e.target)) {
+                setShowChains(false)
+            }
+        }
+
+        document.addEventListener("mousedown", (e) => {
+            checkForClickOutside(e)
+        })
+
+        return(
+            document.removeEventListener("mousedown", (e) => {
+                checkForClickOutside(e)
+            })
+        )
+    }, [showChains])
+
 
 
 
@@ -196,9 +235,26 @@ const Tokens = () => {
         <TokenDisplay>
             <h1>Top 10 Tokens:</h1>
             <Nav>
-                <div className="chain">
-                    <img src={ethLogo} alt="Ethereum Logo" height="20px" width="20px"/> 
-                    <span>Ethereum</span>
+                <div className="chain" onClick={() => setShowChains(true)}>
+                    {activeChain === "ethereum"
+                    ?  <img src={ethLogo} alt="Ethereum Logo" height="30px" width="30px"/> 
+                    : null
+                    }
+                    {activeChain === "polygon"
+                    ? <img src="https://app.uniswap.org/static/media/polygon-matic-logo.97ff139c.svg" alt="polygon logo"></img>
+                    : null
+                    }
+                    {activeChain === "optimism"
+                    ? <img src="https://app.uniswap.org/static/media/optimistic_ethereum.34412af2.svg" alt="optimism logo"></img>
+                    : null
+                    }
+                    {activeChain === "arbitrum"
+                    ? <img src="https://app.uniswap.org/static/media/arbitrum_logo.ec8e5080.svg" alt="arbitrum logo"></img>
+                    : null}
+                    {activeChain === "celo"
+                    ? <img src="https://app.uniswap.org/static/media/celo_logo.faaa57f7.svg" alt="celo logo"></img>
+                    : null}
+                    <span>{chainTemplate}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 <div className="timeFrame" onClick={() => setIsTimeOpen(true) }>
@@ -230,10 +286,15 @@ const Tokens = () => {
                 }
             </TokenList>
             {isTimeOpen ?
-                <div className="wrapper" ref={ref}>
+                <div className="wrapper" ref={refTime}>
                     <TimeNav changeActiveTime={changeActiveTime} time={activeTime}/>
                 </div>
                 : null  }
+            {showChains ?
+            <div className="wrapper chains" ref={refChains}>
+                <Chain activeChain={activeChain} changeChain={props.changeActiveChain} />
+            </div> 
+            : null}
         </TokenDisplay>
     )
 

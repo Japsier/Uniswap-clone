@@ -9,7 +9,6 @@ const Container = styled.div`
     width: 250px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 10px;
-    right: 130px;
     z-index: 1;
     div {
         display: flex;
@@ -35,6 +34,7 @@ const Container = styled.div`
 
 
 const Chain = (props) => {
+    
     
 
     return(
