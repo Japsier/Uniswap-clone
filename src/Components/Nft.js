@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 
 const NftDisplay = styled.div`
@@ -86,7 +86,7 @@ flex-direction: column;
 }
 `
 
-const Nft = () => {
+const Nft = (props) => {
     const [nfts, setNfts] = useState([
         {
             name: "Bored Ape Yacht Club",
@@ -159,18 +159,14 @@ const Nft = () => {
             volumeChange: "95%"
         },
     ])
+    const activeTime = props.activeTime
+    const activeCurrency = props.activeCurrency
 
-    const navLeftOnclick = (e) => {
-        e.target.parentNode.childNodes.forEach((element) => {
-            element.classList.remove("activeNavLeft")
-        })
-        e.target.classList.add("activeNavLeft")
+    const navLeftOnclick = (time) => {
+        props.changeActiveTime(time)
     }
-    const navRightOnclick = (e) => {
-        e.target.parentNode.childNodes.forEach((element) => {
-            element.classList.remove("activeNavRight")
-        })
-        e.target.classList.add("activeNavRight")
+    const navRightOnclick = (curr) => {
+        props.changeActiveCurrency(curr)
     }
 
     return(
@@ -182,14 +178,32 @@ const Nft = () => {
             <p className="secondHeader">Trending NFT colections</p>
             <nav>
                 <div className="navLeft">
-                    <div className="activeNavLeft" onClick={navLeftOnclick}>1D</div>
-                    <div onClick={navLeftOnclick}>1W</div>
-                    <div onClick={navLeftOnclick}>1M</div>
-                    <div onClick={navLeftOnclick}>All</div>
+                    {activeTime === "1d" 
+                    ? <div className="activeNavLeft" onClick={() => navLeftOnclick("1d")}>1D</div>
+                    : <div onClick={() => navLeftOnclick("1d")}>1D</div>
+                    }
+                    {activeTime === "1w" 
+                    ? <div className="activeNavLeft" onClick={() => navLeftOnclick("1w")}>1W</div>
+                    : <div onClick={() => navLeftOnclick("1w")}>1W</div>
+                    }
+                    {activeTime === "1m" 
+                    ? <div className="activeNavLeft" onClick={() => navLeftOnclick("1m")}>1M</div>
+                    : <div onClick={() => navLeftOnclick("1m")}>1M</div>
+                    }
+                    {activeTime === "all" 
+                    ? <div className="activeNavLeft" onClick={() => navLeftOnclick("all")}>All</div>
+                    : <div onClick={() => navLeftOnclick("all")}>All</div>
+                    }
                 </div>
                 <div className="navRight">
-                    <div className="activeNavRight" onClick={navRightOnclick}>ETH</div>
-                    <div onClick={navRightOnclick}>USD</div>
+                    {activeCurrency === "eth"
+                    ? <div className="activeNavRight" onClick={() => navRightOnclick("eth")}>ETH</div>
+                    : <div onClick={() => navRightOnclick("eth")}>ETH</div> 
+                    }
+                    {activeCurrency === "usd"
+                    ? <div className="activeNavRight" onClick={() => navRightOnclick("usd")}>USD</div>
+                    : <div onClick={() => navRightOnclick("usd")}>USD</div> 
+                    }
                 </div>
             </nav>
 

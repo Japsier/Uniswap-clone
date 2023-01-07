@@ -192,7 +192,6 @@ const Tokens = (props) => {
 
     useEffect(() => {
         const checkForClickOutside = (e) => {
-            console.log("clicked")
             if(isTimeOpen && refTime.current && !refTime.current.contains(e.target)) {
                 setIsTimeOpen(false)
             }
@@ -211,7 +210,6 @@ const Tokens = (props) => {
 
     useEffect(() => {
         const checkForClickOutside = (e) => {
-            console.log("clicked")
             if(showChains && refChains.current && !refChains.current.contains(e.target)) {
                 setShowChains(false)
             }
