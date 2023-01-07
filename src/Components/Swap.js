@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import SwapSettings from "./SwapSettings"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import ethLogo from "../Assets/ethLogo.png"
 import WalletDisplay from "./WalletDisplay"
 
@@ -17,8 +17,38 @@ align-self: center;
 justify-self: center;
 display: flex;
 flex-direction: column;
-gap: 8px;
+gap: 4px;
 position: relative;
+    .swapButton {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px;
+        background-color: white;
+        border-radius: 10px;
+        top: 43.5%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        .bgColor {
+            background-color: #e2e8f0;
+            padding: 5px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img {
+                filter: invert(44%) sepia(1%) saturate(6084%) hue-rotate(179deg) brightness(92%) contrast(86%);
+                height: 16px;
+                width: 16px;
+            }
+        }
+        &:hover {
+            cursor: pointer;
+        }
+
+    }
 
 `
 const TopBar = styled.div `
@@ -45,6 +75,9 @@ svg {
 `
 
 const Token = styled.div`
+box-sizing: border-box;
+width: 400px;
+height: 90px;
 background-color: #e2e8f0;
 display: flex;
 justify-content: space-between;
@@ -111,6 +144,7 @@ const ConnectWallet = styled.div`
     border-radius: 30px;
     display: flex;
     justify-content: center;
+    margin-top: 10px;
 
     &:hover {
         cursor: pointer;
@@ -120,47 +154,89 @@ const ConnectWallet = styled.div`
 `
 
 const Swap = () => {
+    const refSettings = useRef()
+
     const [displaySettings, setDisplaySettings] = useState(false)
     const [displayWallet, setDisplayWallet] = useState(false)
+    const [areTokensSwapped, setAreTokensSwapped] = useState(false)
 
-    const settingsClick = () => {
-        setDisplaySettings(true)
-    }
-    const closeSettings = () => {
-        setDisplaySettings(false)
-    }
+    useEffect(() => {
+        const checkIfClickedOutside = (e) => {
+            if(displaySettings && refSettings.current && !refSettings.current.contains(e.target)) {
+                setDisplaySettings(false)
+            }
+        }
+
+        document.addEventListener("mousedown", (e) => {
+            checkIfClickedOutside(e)
+        } )
+
+        return(
+            document.removeEventListener("mousedown", checkIfClickedOutside)
+        )
+    }, [displaySettings])
+
+
+
     const hideWalletConnect = () => {
         setDisplayWallet(false)
     }
     const connectWalletClick = () => {
         setDisplayWallet(true)
     }
+    const handleTokenSwap = () => {
+        if(areTokensSwapped === false) {
+            setAreTokensSwapped(true)
+        } else {
+            setAreTokensSwapped(false)
+        }
+    }
+    
 
     return(
         <Container>
             <TopBar>
                 <h3>Swap</h3>
                 <h3>
-                <svg onClick={settingsClick} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <svg onClick={() => setDisplaySettings(true)} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </h3>
                 {displaySettings ? 
-                <SwapSettings closeSettings={closeSettings}/>
-                : console.log("rerender")}
+                <div className="wrapper" ref={refSettings} >
+                    <SwapSettings />
+                </div>
+                : null}
             </TopBar>
             <Token>
                 <input type="number" placeholder="0"/>
-                <div className="tokenSelector one">
-                    <img src={ethLogo} alt="eth logo"></img>
-                    <span>ETH</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-            </Token>
-            <Token>
-                <input type="number" placeholder="0"/>
-                <div className="tokenSelector two">
+                {areTokensSwapped
+                ?  <div className="tokenSelector two">
                     <span>Select token</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
+                :<div className="tokenSelector one">
+                    <img src={ethLogo} alt="eth logo"></img>
+                    <span>ETH</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>}
+
+            </Token>
+            <div className="swapButton" onClick={handleTokenSwap}>
+                <div className="bgColor">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2989/2989995.png" alt="arrow"></img>
+                </div>
+            </div>
+            <Token>
+                <input type="number" placeholder="0"/>
+                {areTokensSwapped
+                ?  <div className="tokenSelector one">
+                        <img src={ethLogo} alt="eth logo"></img>
+                        <span>ETH</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                : <div className="tokenSelector two">
+                    <span>Select token</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7780A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div> }
             </Token>
             <ConnectWallet onClick={connectWalletClick}>
                 <h2>Connect Wallet</h2>

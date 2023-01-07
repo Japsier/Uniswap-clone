@@ -19,6 +19,7 @@ const Container = styled.div`
     height: fit-content;
     padding: 15px;
     font-size: 14px;
+    z-index: 10;
 
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
@@ -206,7 +207,7 @@ const Container = styled.div`
 
 `
 
-const SwapSettings = (props) => {
+const SwapSettings = () => {
 
     const [autoActive, setAutoActive] = useState(true)
 
@@ -230,7 +231,6 @@ const SwapSettings = (props) => {
     return(
         <Container>
             <p className="header">Settings</p>
-            <button onClick={props.closeSettings} className="closeBtn">X</button>
             <p className="text">Slippage tolerance</p>
             <div className="slippageDiv">
                 <div className={`autoBtn ${slippageClassName}`} onClick={handleSlippageClick} >Auto</div>
