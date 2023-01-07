@@ -14,6 +14,7 @@ function RouteSwitch() {
   const [activeChain, setActiveChain] = useState("ethereum")
   const [activeTimeNFTs, setActiveTimeNFTs] = useState("1d")
   const [activeCurrencyNFTs, setActiveCurrencyNFTs] = useState("eth")
+  const [activeTimeTokens, setActiveTimeTokens] = useState("1d")
 
   const changeActiveChain = (chain) => {
     setActiveChain(chain)
@@ -24,6 +25,9 @@ function RouteSwitch() {
   const changeActiveCurrencyNFTs = (curr) => {
     setActiveCurrencyNFTs(curr)
   }
+  const changeActiveTimeTokens = (time) => {
+    setActiveTimeTokens(time)
+  }
   
   return(
     <BrowserRouter>
@@ -33,7 +37,8 @@ function RouteSwitch() {
         <Route path="/Swap" element={<Swap />} />
         <Route path="/nfts" element={<Nft activeTime={activeTimeNFTs} changeActiveTime={changeActiveTimeNFTs}
         activeCurrency={activeCurrencyNFTs} changeActiveCurrency={changeActiveCurrencyNFTs} />} />
-        <Route path="/tokens" element={<Tokens activeChain={activeChain} changeActiveChain={changeActiveChain} />} />
+        <Route path="/tokens" element={<Tokens activeChain={activeChain} changeActiveChain={changeActiveChain}
+        activeTime={activeTimeTokens} changeActiveTime={changeActiveTimeTokens} />} />
         <Route path="/pool" element={<Pool />} />
       </Routes>
     </BrowserRouter>

@@ -176,7 +176,7 @@ const Tokens = (props) => {
     const refChains = useRef()
 
     const [isTimeOpen, setIsTimeOpen] = useState(false)
-    const [activeTime, setActiveTime] = useState("1d")
+    const activeTime = props.activeTime
     const [showChains, setShowChains] = useState(false)
 
     const activeChain = props.activeChain
@@ -187,7 +187,7 @@ const Tokens = (props) => {
     const chainTemplate = firstLetter + lastLetters
 
     const changeActiveTime = (time) => {
-        setActiveTime(time)
+        props.changeActiveTime(time)
     }
 
     useEffect(() => {
