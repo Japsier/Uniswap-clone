@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Uniswap-clone/static/css/main.0d773a7e.css",
-    "main.js": "/Uniswap-clone/static/js/main.829d9dfb.js",
+    "main.js": "/Uniswap-clone/static/js/main.d7a9829e.js",
     "index.html": "/Uniswap-clone/index.html",
     "main.0d773a7e.css.map": "/Uniswap-clone/static/css/main.0d773a7e.css.map",
-    "main.829d9dfb.js.map": "/Uniswap-clone/static/js/main.829d9dfb.js.map"
+    "main.d7a9829e.js.map": "/Uniswap-clone/static/js/main.d7a9829e.js.map"
   },
   "entrypoints": [
     "static/css/main.0d773a7e.css",
-    "static/js/main.829d9dfb.js"
+    "static/js/main.d7a9829e.js"
   ]
 }
